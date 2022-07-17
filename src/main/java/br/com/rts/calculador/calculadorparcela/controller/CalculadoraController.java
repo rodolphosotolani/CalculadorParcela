@@ -5,19 +5,24 @@ import br.com.rts.calculador.calculadorparcela.controller.resquest.SimuladorEmpr
 import br.com.rts.calculador.calculadorparcela.service.CalculadoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/calculadoras")
-public class Calculadora {
+public class CalculadoraController {
 
     @Autowired
     private CalculadoraService service;
 
-    @GetMapping("/parcelas")
-    public ResponseEntity<SimuladorEmprestimoResponse> calcularParcelas(SimuladorEmprestimoResquest simuladorEmprestimo) {
+    @PostMapping("/parcelas")
+    public ResponseEntity<SimuladorEmprestimoResponse> calcularParcelas(
+            @RequestBody @Valid SimuladorEmprestimoResquest simuladorEmprestimo) {
+
         SimuladorEmprestimoResponse response = service.calcularParcelas(simuladorEmprestimo);
         return ResponseEntity.ok(response);
     }
